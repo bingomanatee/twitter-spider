@@ -11,6 +11,10 @@ var path = require('path')
 var log_file = path.resolve(__dirname, 'actions.log');
 var frame_path = path.resolve(__dirname, 'frames');
 
+var child = require('child_process').fork('mentions_to_users.js');
+
+
+
 mongoose.connect('mongodb://localhost/twittergraph');
 var apiary = mvc.Apiary({mongoose: mongoose, frame_filter: ['twittergraph'],
     log_file:                      log_file, action_handler_failsafe_time: 3000}, frame_path);
@@ -51,8 +55,9 @@ apiary.init(function () {
                                 user.tweets_fetched = count;
                                 user.fetch_time = new Date();
                                 user.save();
+                                running = false;
+                                child.send('get mentions');
                             });
-                            running = false;
                         })
                     } else {
                         console.log('rate limit - not getting tweets');

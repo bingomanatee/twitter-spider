@@ -14,53 +14,44 @@ var frame_path = path.resolve(__dirname, 'frames');
 mongoose.connect('mongodb://localhost/twittergraph');
 var apiary = mvc.Apiary({mongoose: mongoose, frame_filter: ['twittergraph'],
     log_file:                      log_file, action_handler_failsafe_time: 3000}, frame_path);
-apiary._config.setAll(require('./site_identity.json'));
 apiary._config.setAll(require('./passport_config.json'));
 
 var running = false;
+var run = false;
+var tweet_mentions_model;
+var pending_run = false;
+
+function get_mentions(from_parent) {
+    if (running) {
+        run = true;
+        return;
+    }
+
+    if (pending_run) {
+        pending_run = false;
+    }
+
+    running = true;
+
+    tweet_mentions_model.aggregate(function () {
+        running = false;
+        if (run && (!pending_run)){
+            pending_run = setTimeout(get_mentions, 5000);
+        }
+    })
+}
 
 apiary.init(function () {
-    var twitter_user_model = apiary.model('twitter_user');
-    var tweets_model = apiary.model('twitter_user_tweets');
-    var twitter_model = apiary.model('twitter_conn');
-    setInterval(function () {
-        if (running) {
-            return;
-        }
-        running = true;
-        twitter_user_model.find_one({tweets_fetched: 0}, 'screen_name',
-            function (err, user) {
-                if (!user) {
-                    console.log('no users with unfetched tweets found');
-                    running = false;
-                    return;
-                }
+    tweet_mentions_model = apiary.model('tweet_mentions');
+    if (run) {
+        get_mentions();
+    }
+});
 
-                twitter_model.get_rate_limit('statuses', function (err, data) {
-                    if (err) {
-                        running = false;
-                        return;
-                    }
-                    console.log('status rate limit: %s,  %s', err, util.inspect(data, {depth: 5}));
+process.on('message', function (m) {
 
-                    if (data.resources.statuses['/statuses/user_timeline'].remaining > 2) {
-                        tweets_model.get_tweets({
-                            screen_name: user.screen_name
-                        }, function () {
-                            tweets_model.tweet_count(user, function (err, count) {
-                                console.log('%s tweets found for %s', count, user.screen_name);
-                                user.tweets_fetched = count;
-                                user.fetch_time = new Date();
-                                user.save();
-                                running = false;
-                            });
-                        })
-                    } else {
-                        console.log('rate limit - not getting tweets');
-                        running = false;
-                    }
-                })
-            });
+    if (m == 'get mentions') {
+        get_mentions(from_parent);
+    }
 
-    }, 500);
 });
