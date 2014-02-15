@@ -1,0 +1,26 @@
+{
+    "name":              "string",
+    "id":                "number",
+    "screen_name":       {
+        "type":   "string",
+        "index":  true,
+        "unique": true
+    },
+    "mentions":          [
+        {
+            "screen_name":  "string",
+            "count": "number"
+        }
+    ],
+    "created_at":        "date",
+    "profile_image_url": "string",
+    "description":       "string",
+    "friends_count":     "number",
+    "load_status":       "string",
+    "fetch_time":        "date",
+    "tweets_fetched":    {
+        "type":    "number",
+        "default": 0
+    },
+    "last_tweet_poll":   "date"
+}

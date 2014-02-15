@@ -1,0 +1,7 @@
+/* ************ this is where you can customize your layout.*************** */
+
+/* required for top navigation based sites */
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}

@@ -1,0 +1,7 @@
+{
+    "_id":   "string",
+    "value": {
+        "tweets": ["string"],
+        "count":  [ "mixed" ]
+    }
+}

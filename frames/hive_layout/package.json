@@ -1,0 +1,23 @@
+{
+    "name": "hive_layout",
+    "version": "0.0.1",
+    "description": "private -- hive layout module",
+    "private": true,
+    "directories": {
+        "test": "tests"
+    },
+    "dependencies": {
+        "hive-loader": "0.0.2",
+        "hive-component": "0.0.1-a",
+        "order-by-prereq": "0.0.2",
+        "hive-model": "~0.1.2"
+    },
+    "devDependencies": {
+        "hive-model": "~0.1.0"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Dave Edelhart",
+    "license": "BSD"
+}

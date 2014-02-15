@@ -1,0 +1,31 @@
+{
+  "name": "twitter-graph",
+  "version": "0.0.0",
+  "description": "",
+  "main": "web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "twitter": "~0.2.5",
+    "hive-mvc": "~0.1.1-a",
+    "express": "~3.4.8",
+    "ejs": "~0.8.5",
+    "underscore": "~1.6.0",
+    "async": "~0.2.10",
+    "mongoose": "~3.8.7",
+    "passport": "~0.2.0",
+    "passport-twitter": "~1.0.2",
+    "moment": "~2.5.1",
+    "hive-menu": "0.0.1",
+    "gate": "~0.3.0",
+    "passport-facebook": "~1.0.2",
+    "hive-model": "~0.1.2",
+    "hive-component": "0.0.1-a"
+  },
+  "devDependencies": {
+    "tap": "~0.4.8"
+  }
+}

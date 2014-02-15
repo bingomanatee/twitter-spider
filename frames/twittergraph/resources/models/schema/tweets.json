@@ -1,0 +1,18 @@
+{
+    "_id":                 "string",
+    "mentions":            "number",
+    "mentions_aggregates": {
+        "type":    "boolean",
+        "default": false
+    },
+    "user":                {
+        "id":          "number",
+        "name":        "string",
+        "screen_name": "string"
+    },
+    "screen_name":         "string",
+    "text":                "string",
+    "embed":               "string",
+    "created_at":          "date",
+    "entities":            ["mixed"]
+}
